@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#080d1b">
+<title>ZSpace | ZYVORA</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080d1b;color:#eaf1ff;font-family:Tahoma,Arial,sans-serif}
+button{font:inherit;cursor:pointer;border:0}
+:root{--panel:#111b30;--panel2:#17243c;--cyan:#36d9ff;--purple:#9272ff;--green:#4be0a1;--red:#ff637b;--muted:#8da1c2}
+header{position:sticky;top:0;z-index:5;background:#0c1426ee;border-bottom:1px solid #263653;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{font-size:20px;font-weight:bold;color:var(--cyan);letter-spacing:1px}
+.logo small{display:block;color:#9cadd0;font-size:10px;letter-spacing:2px;margin-top:3px}
+.creator{font-size:10px;color:#9cadd0;text-align:left;line-height:1.8}
+main{max-width:1100px;margin:auto;padding:14px}
+.hero{border:1px solid #263b5c;border-radius:18px;padding:18px;background:radial-gradient(circle at 80% 0,#263a70 0,transparent 45%),linear-gradient(135deg,#14223e,#10182b);position:relative;overflow:hidden}
+.hero h1{font-size:24px;margin:0 0 8px;color:white}
+.hero p{font-size:12px;color:#a9bad8;line-height:1.9;margin:0}
+.station-art{height:145px;display:flex;align-items:center;justify-content:center;font-size:78px;filter:drop-shadow(0 0 20px #35cfff88)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.stat{background:var(--panel);border:1px solid #243653;border-radius:12px;padding:10px;text-align:center;min-width:0}
+.stat span{display:block;color:var(--muted);font-size:10px;margin-bottom:7px}
+.stat b{font-size:15px;color:white}
+.tabs{display:flex;gap:7px;overflow:auto;padding:4px 0 12px;scrollbar-width:none}
+.tabs button{white-space:nowrap;background:#17243b;color:#aebed8;border:1px solid #293b59;border-radius:10px;padding:10px 13px;font-size:12px}
+.tabs button.active{background:#17445a;color:#6be5ff;border-color:#36d9ff}
+.panel{display:none}.panel.active{display:block}
+.section-title{font-size:16px;margin:12px 0;color:#dceaff}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:linear-gradient(145deg,#16243d,#101a2d);border:1px solid #293c5b;border-radius:14px;padding:13px;min-width:0}
+.card .emoji{font-size:28px}
+.card h3{font-size:13px;margin:8px 0 5px}
+.card p{font-size:11px;color:#9eb0ce;line-height:1.8;margin:5px 0}
+.card .info{font-size:11px;color:#6fe2ff;margin:8px 0}
+.btn{background:linear-gradient(100deg,#1689a9,#4268db);color:white;padding:10px 12px;border-radius:9px;font-size:11px;width:100%;margin-top:7px}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.secondary{background:#263653}
+.btn.green{background:#167d61}
+.btn.red{background:#963c56}
+.progress{height:7px;background:#263653;border-radius:20px;overflow:hidden;margin:8px 0}
+.progress div{height:100%;background:linear-gradient(90deg,#32c9ff,#8c78ff);border-radius:20px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.row small{color:var(--muted);font-size:10px}
+.notice{padding:12px;background:#142d39;border:1px solid #28617a;border-radius:11px;color:#a9eaff;font-size:11px;line-height:1.8;margin:10px 0}
+.log{background:#0d1728;border:1px solid #233653;border-radius:12px;padding:12px;max-height:230px;overflow:auto;font-size:11px;color:#9db2d1;line-height:2}
+.log div{border-bottom:1px solid #1d2c45;padding:3px 0}
+footer{text-align:center;padding:25px 10px;color:#7185a8;font-size:10px;line-height:2}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:10;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-box{background:#14213a;border:1px solid #3a547b;border-radius:17px;padding:20px;width:100%;max-width:380px}
+.modal-box h2{margin-top:0}
+input{width:100%;background:#0b1527;color:white;border:1px solid #354968;border-radius:9px;padding:12px;margin:8px 0}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{display:grid;grid-template-columns:1fr 220px;align-items:center}.station-art{grid-column:2;grid-row:1}.hero-text{grid-column:1;grid-row:1}.stats{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:380px){.stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:20px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">ZSPACE <small>SPACE STATION SIMULATOR</small></div>
+  <div class="creator">DEVELOPED BY<br><b>HC DEV</b> · ZYVORA</div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-text">
+    <h1>فرمانده، به ایستگاه فضایی خوش آمدی!</h1>
+    <p>ایستگاه فضایی خودت را بساز، منابع را مدیریت کن، خدمه استخدام کن و به اعماق فضا گسترش پیدا کن.</p>
+    <div style="margin-top:13px;font-size:10px;color:#72dfff">BUILD YOUR STATION. CONQUER SPACE.</div>
+  </div>
+  <div class="station-art">🛰️</div>
+</section>
+
+<section class="stats">
+  <div class="stat"><span>اعتبار مالی</span><b id="credits">1000</b></div>
+  <div class="stat"><span>انرژی</span><b id="energy">100</b></div>
+  <div class="stat"><span>اکسیژن</span><b id="oxygen">100</b></div>
+  <div class="stat"><span>خدمه</span><b id="crew">2</b></div>
+  <div class="stat"><span>آهن</span><b id="iron">100</b></div>
+  <div class="stat"><span>تیتانیوم</span><b id="titanium">30</b></div>
+  <div class="stat"><span>غذا</span><b id="food">100</b></div>
+  <div class="stat"><span>روز ایستگاه</span><b id="day">1</b></div>
+</section>
+
+<nav class="tabs">
+  <button class="active" data-tab="overview">ایستگاه</button>
+  <button data-tab="build">ساخت‌وساز</button>
+  <button data-tab="crewTab">خدمه</button>
+  <button data-tab="research">تحقیقات</button>
+  <button data-tab="missions">مأموریت‌ها</button>
+  <button data-tab="trade">بازار</button>
+  <button data-tab="about">درباره بازی</button>
+</nav>
+
+<section id="overview" class="panel active">
+  <h2 class="section-title">وضعیت ایستگاه</h2>
+  <div class="card">
+    <div class="row"><b>سلامت کلی ایستگاه</b><b id="healthText">100%</b></div>
+    <div class="progress"><div id="healthBar" style="width:100%"></div></div>
+    <p>ایستگاه شما در مدار زمین قرار دارد. برای توسعه آن منابع و انرژی کافی تأمین کنید.</p>
+    <div class="row"><small>سطح ایستگاه</small><b id="level">1</b></div>
+    <div class="row"><small>ظرفیت خدمه</small><b id="capacity">4</b></div>
+    <div class="row"><small>تولید انرژی در روز</small><b id="production">15</b></div>
+  </div>
+  <div class="notice">هر روز ایستگاه، منابع مصرف می‌شوند. تولید انرژی، اکسیژن و غذا را متناسب با تعداد خدمه و ساختمان‌ها مدیریت کن.</div>
+  <button class="btn green" onclick="nextDay()">⏩ پایان روز و رفتن به روز بعد</button>
+  <h2 class="section-title">گزارش عملیات</h2>
+  <div class="log" id="logs"></div>
+</section>
+
+<section id="build" class="panel">
+  <h2 class="section-title">ساخت‌وساز ایستگاه</h2>
+  <div class="grid" id="buildings"></div>
+</section>
+
+<section id="crewTab" class="panel">
+  <h2 class="section-title">مدیریت خدمه</h2>
+  <div class="card">
+    <div class="row"><b>اعضای فعلی</b><b id="crewCount">2 / 4</b></div>
+    <p>خدمه برای اداره ایستگاه ضروری هستند؛ اما به اکسیژن و غذا نیاز دارند.</p>
+    <button class="btn" onclick="hireCrew()">استخدام عضو جدید — 150 اعتبار</button>
+  </div>
+  <h2 class="section-title">تخصص‌ها</h2>
+  <div class="grid">
+    <div class="card"><div class="emoji">👨‍🚀</div><h3>مهندس</h3><p>مدیریت و نگهداری تجهیزات.</p></div>
+    <div class="card"><div class="emoji">🔬</div><h3>دانشمند</h3><p>پیشرفت پروژه‌های تحقیقاتی.</p></div>
+    <div class="card"><div class="emoji">🧑‍⚕️</div><h3>پزشک</h3><p>حفظ سلامت اعضای خدمه.</p></div>
+  </div>
+</section>
+
+<section id="research" class="panel">
+  <h2 class="section-title">مرکز تحقیقات</h2>
+  <div class="grid" id="researchList"></div>
+</section>
+
+<section id="missions" class="panel">
+  <h2 class="section-title">مأموریت‌های فضایی</h2>
+  <div class="grid" id="missionList"></div>
+</section>
+
+<section id="trade" class="panel">
+  <h2 class="section-title">بازار بین‌سیاره‌ای</h2>
+  <div class="notice">منابع اضافی را بفروش یا برای توسعه ایستگاه مواد اولیه خریداری کن.</div>
+  <div class="grid" id="market"></div>
+</section>
+
+<section id="about" class="panel">
+  <div class="card" style="text-align:center;padding:25px">
+    <div style="font-size:48px">🛰️</div>
+    <h1 style="color:#42d9ff">ZSpace</h1>
+    <p>Space Station Simulator</p>
+    <div style="height:1px;background:#344969;margin:18px 0"></div>
+    <p>ساخته‌شده توسط</p>
+    <h2 style="color:white">HC DEV</h2>
+    <p style="color:#61dfff;font-size:16px">ZYVORA</p>
+    <p>Build Your Station. Conquer Space.</p>
+    <p>نسخه 1.0.0</p>
+  </div>
+</section>
+
+<footer>
+  ZSPACE — SPACE STATION SIMULATOR<br>
+  Developed by <b>HC DEV</b> | Published by <b>ZYVORA</b><br>
+  © 2026 ZYVORA. All rights reserved.
+</footer>
+</main>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h2 id="modalTitle">پیام</h2>
+    <p id="modalText" style="font-size:12px;line-height:2;color:#b7c8e4"></p>
+    <button class="btn" onclick="closeModal()">متوجه شدم</button>
+  </div>
+</div>
+
+<script>
+const defaults={
+ credits:1000,energy:100,oxygen:100,crew:2,iron:100,titanium:30,food:100,
+ day:1,level:1,health:100,buildings:{solar:1,oxygen:0,farm:0,lab:0,habitat:0},
+ research:[],completed:[],logs:[],lastSave:Date.now()
+};
+let s;
+try{s={...defaults,...JSON.parse(localStorage.getItem("zspace_save")||"{}")};
+s.buildings={...defaults.buildings,...(s.buildings||{})};}
+catch(e){s=structuredClone(defaults)}
+
+const buildingData=[
+{id:"solar",name:"پنل خورشیدی",emoji:"☀️",desc:"تولید انرژی بیشتر در هر روز.",cost:{credits:200,iron:30},effect:"۱۵ انرژی در روز"},
+{id:"oxygen",name:"تولیدکننده اکسیژن",emoji:"🫧",desc:"تأمین اکسیژن موردنیاز خدمه.",cost:{credits:250,iron:35},effect:"۱۵ اکسیژن در روز"},
+{id:"farm",name:"مزرعه فضایی",emoji:"🌱",desc:"تولید غذای تازه برای خدمه.",cost:{credits:300,iron:40},effect:"۲۰ غذا در روز"},
+{id:"lab",name:"آزمایشگاه علمی",emoji:"🔬",desc:"افزایش سرعت تحقیقات.",cost:{credits:400,iron:50,titanium:5},effect:"۵ امتیاز تحقیق در روز"},
+{id:"habitat",name:"بخش اقامتی",emoji:"🏠",desc:"افزایش ظرفیت پذیرش خدمه.",cost:{credits:350,iron:45},effect:"ظرفیت ۲ نفر بیشتر"}
+];
+
+const researchData=[
+{id:"solarTech",name:"سلول‌های خورشیدی پیشرفته",emoji:"⚡",desc:"افزایش تولید انرژی.",cost:250,iron:20},
+{id:"lifeSupport",name:"پشتیبانی حیات",emoji:"🧬",desc:"کاهش مصرف اکسیژن.",cost:300,iron:25},
+{id:"robotics",name:"رباتیک فضایی",emoji:"🤖",desc:"افزایش راندمان ایستگاه.",cost:450,iron:40,titanium:10}
+];
+
+const missions=[
+{id:"orbit",name:"بررسی مدار زمین",emoji:"🌍",desc:"یک مأموریت ساده برای جمع‌آوری داده.",reward:250,iron:15,days:1},
+{id:"moon",name:"اکتشاف ماه",emoji:"🌕",desc:"ارسال یک تیم اکتشافی به ماه.",reward:500,iron:25,days:2},
+{id:"mars",name:"کاوش مریخ",emoji:"🔴",desc:"مأموریتی پیشرفته به سیاره سرخ.",reward:900,titanium:15,days:3}
+];
+
+function save(){
+ s.lastSave=Date.now();
+ localStorage.setItem("zspace_save",JSON.stringify(s));
+}
+function log(t){
+ s.logs.unshift("روز "+s.day+" — "+t);
+ s.logs=s.logs.slice(0,35);
+}
+function notify(title,text){
+ document.getElementById("modalTitle").textContent=title;
+ document.getElementById("modalText").textContent=text;
+ document.getElementById("modal").classList.add("show");
+}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+function fmt(n){return Math.floor(n).toLocaleString("en-US")}
+function costText(cost){
+ return Object.entries(cost).map(([k,v])=>({credits:"اعتبار",iron:"آهن",titanium:"تیتانیوم"}[k]+" "+v).toString()).join(" · ");
+}
+function canPay(cost){
+ return Object.entries(cost).every(([k,v])=>s[k]>=v);
+}
+function pay(cost){
+ if(!canPay(cost))return false;
+ Object.entries(cost).forEach(([k,v])=>s[k]-=v);
+ return true;
+}
+function capacity(){return 4+s.buildings.habitat*2}
+function production(){return s.buildings.solar*15+15}
+function addBuilding(id){
+ const b=buildingData.find(x=>x.id===id);
+ if(!pay(b.cost)){notify("منابع کافی نیست","برای ساخت این ساختمان، منابع بیشتری جمع‌آوری کن.");return}
+ s.buildings[id]++;
+ log("ساختمان "+b.name+" ساخته شد.");
+ render();
+}
+function hireCrew(){
+ if(s.crew>=capacity()){notify("ظرفیت تکمیل است","ابتدا یک بخش اقامتی بساز.");return}
+ if(s.credits<150){notify("اعتبار کافی نیست","برای استخدام به ۱۵۰ اعتبار نیاز داری.");return}
+ s.credits-=150;s.crew++;
+ log("یک عضو جدید به خدمه اضافه شد.");
+ render();
+}
+function doResearch(id){
+ const r=researchData.find(x=>x.id===id);
+ if(s.research.includes(id))return;
+ const c={credits:r.cost,iron:r.iron,...(r.titanium?{titanium:r.titanium}:{})};
+ if(!pay(c)){notify("منابع کافی نیست","منابع موردنیاز تحقیق را تأمین کن.");return}
+ s.research.push(id);
+ log("تحقیق "+r.name+" تکمیل شد.");
+ render();
+}
+function startMission(id){
+ const m=missions.find(x=>x.id===id);
+ if(s.completed.includes(id))return;
+ if(s.crew<2){notify("خدمه کافی نیست","برای مأموریت حداقل دو عضو خدمه لازم است.");return}
+ const costs={orbit:100,moon:250,mars:450};
+ if(s.credits<costs[id]){notify("اعتبار کافی نیست","هزینه اعزام: "+costs[id]);return}
+ s.credits-=costs[id];
+ log("مأموریت "+m.name+" آغاز شد.");
+ let finishDay=s.day+m.days;
+ let pending=JSON.parse(localStorage.getItem("zspace_missions")||"[]");
+ pending.push({id,finishDay});
+ localStorage.setItem("zspace_missions",JSON.stringify(pending));
+ render();
+}
+function nextDay(){
+ s.day++;
+ let energyProduction=production();
+ let oxygenProduction=s.buildings.oxygen*15;
+ let foodProduction=s.buildings.farm*20;
+ s.energy=Math.min(300,s.energy+energyProduction-10);
+ s.oxygen=Math.min(300,s.oxygen+oxygenProduction-s.crew*5);
+ s.food=Math.min(300,s.food+foodProduction-s.crew*4);
+ s.credits+=50+s.buildings.lab*10;
+ s.iron+=5;
+ if(s.buildings.lab)s.credits+=s.buildings.lab*10;
+ if(s.energy<0||s.oxygen<0||s.food<0){
+   s.health=Math.max(0,s.health-10);
+   log("هشدار: کمبود منابع باعث کاهش سلامت ایستگاه شد.");
+ }else{
+   s.health=Math.min(100,s.health+2);
+ }
+ if(s.health<=0){
+   notify("وضعیت بحرانی","سلامت ایستگاه به صفر رسیده است. منابع را تأمین کن.");
+ }
+ let pending=JSON.parse(localStorage.getItem("zspace_missions")||"[]");
+ let remaining=[];
+ pending.forEach(p=>{
+   if(s.day>=p.finishDay){
+     let m=missions.find(x=>x.id===p.id);
+     if(m&&!s.completed.includes(p.id)){
+       s.completed.push(p.id);
+       s.credits+=m.reward;s.iron+=m.iron;
+       if(m.titanium)s.titanium+=m.titanium;
+       log("مأموریت "+m.name+" موفق بود. پاداش دریافت شد.");
+     }
+   }else remaining.push(p);
+ });
+ localStorage.setItem("zspace_missions",JSON.stringify(remaining));
+ log("روز جدید آغاز شد. درآمد روزانه دریافت شد.");
+ render();
+}
+function trade(resource,amount,buy){
+ const prices={iron:5,titanium:20,food:3,energy:4};
+ let price=prices[resource]*amount;
+ if(buy){
+   if(s.credits<price){notify("اعتبار کافی نیست","برای خرید به اعتبار بیشتری نیاز داری.");return}
+   s.credits-=price;s[resource]+=amount;
+ }else{
+   if(s[resource]<amount){notify("موجودی کافی نیست","مقدار کافی برای فروش نداری.");return}
+   s[resource]-=amount;s.credits+=price;
+ }
+ log((buy?"خرید ":"فروش ")+amount+" واحد "+resource);
+ render();
+}
+function render(){
+ ["credits","energy","oxygen","crew","iron","titanium","food","day","level"].forEach(k=>{
+  document.getElementById(k).textContent=fmt(s[k]);
+ });
+ document.getElementById("healthText").textContent=s.health+"%";
+ document.getElementById("healthBar").style.width=s.health+"%";
+ document.getElementById("capacity").textContent=capacity();
+ document.getElementById("production").textContent=production();
+ document.getElementById("crewCount").textContent=s.crew+" / "+capacity();
+ document.getElementById("logs").innerHTML=s.logs.map(x=>"<div>"+escapeHTML(x)+"</div>").join("")||"هنوز گزارشی ثبت نشده است.";
+ document.getElementById("buildings").innerHTML=buildingData.map(b=>{
+  let n=s.buildings[b.id];
+  return `<article class="card"><div class="emoji">${b.emoji}</div><h3>${b.name}</h3><p>${b.desc}</p><div class="info">${b.effect} · تعداد: ${n}</div><small>هزینه: ${costText(b.cost)}</small><button class="btn" onclick="addBuilding('${b.id}')">ساخت ساختمان</button></article>`;
+ }).join("");
+ document.getElementById("researchList").innerHTML=researchData.map(r=>{
+  let done=s.research.includes(r.id);
+  let c={credits:r.cost,iron:r.iron,...(r.titanium?{titanium:r.titanium}:{})};
+  return `<article class="card"><div class="emoji">${r.emoji}</div><h3>${r.name}</h3><p>${r.desc}</p><div class="info">${done?"تحقیق تکمیل شده":costText(c)}</div><button class="btn ${done?"secondary":"green"}" ${done?"disabled":""} onclick="doResearch('${r.id}')">${done?"تکمیل شده":"شروع تحقیق"}</button></article>`;
+ }).join("");
+ document.getElementById("missionList").innerHTML=missions.map(m=>{
+  let done=s.completed.includes(m.id);
+  let pending=JSON.parse(localStorage.getItem("zspace_missions")||"[]").some(p=>p.id===m.id);
+  return `<article class="card"><div class="emoji">${m.emoji}</div><h3>${m.name}</h3><p>${m.desc}</p><div class="info">زمان: ${m.days} روز · پاداش: ${m.reward} اعتبار</div><button class="btn" ${done||pending?"disabled":""} onclick="startMission('${m.id}')">${done?"تکمیل شده":pending?"در حال اجرا":"اعزام مأموریت"}</button></article>`;
+ }).join("");
+ document.getElementById("market").innerHTML=[
+ ["iron","آهن","⛏️",5],["titanium","تیتانیوم","💎",20],["food","غذا","🍱",3],["energy","انرژی","⚡",4]
+ ].map(([id,name,emoji,price])=>`<article class="card"><div class="emoji">${emoji}</div><h3>${name}</h3><p>قیمت هر واحد: ${price} اعتبار</p><button class="btn" onclick="trade('${id}',10,true)">خرید ۱۰ واحد</button><button class="btn secondary" onclick="trade('${id}',10,false)">فروش ۱۰ واحد</button></article>`).join("");
+ save();
+}
+function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+document.querySelectorAll(".tabs button").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById(btn.dataset.tab).classList.add("active");
+ });
+});
+render();
+</script>
+</body>
+</html>
